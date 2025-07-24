@@ -17,15 +17,16 @@ from typing import Dict, Optional
 class YouTubeToSummaryPipeline:
     """Main pipeline class that handles the entire workflow"""
     
-    def __init__(self, api_key: str = "YWYwNTc0ZjUtOGE3NS00ZTM1LTk1NWUtMmRhYzVhOWYzZjNk"):
+    def __init__(self, api_key: str = None):
         """
         Initialize the pipeline with API configuration
         
         Args:
             api_key (str): API key for the Rev21Labs AI services
         """
-        self.api_key = api_key
-        self.temp_dir = "temp_outputs"
+        self.api_key = api_key or os.getenv('API_KEY', "YWYwNTc0ZjUtOGE3NS00ZTM1LTk1NWUtMmRhYzVhOWYzZjNk")
+        # Use /tmp directory for Vercel serverless functions
+        self.temp_dir = "/tmp/temp_outputs" if os.path.exists("/tmp") else "temp_outputs"
         self.video_filename = "video.mp4"
         self.audio_filename = "audio.mp3"
         
